@@ -156,6 +156,8 @@ _Moto_7    -> Completala cabezón
             
             const cursos = JSON.parse(`<?php echo $courses_list; ?>`);
             
+            let current_id_course_part = 0;
+            
             var video_speed_rate = 1;
             
             function render_courses(){
@@ -175,10 +177,12 @@ _Moto_7    -> Completala cabezón
                     for(part of cursos[course]){
                         part_ind++;
                         const link = part["url"];
+                        const id_course_part = part["id_course_part"];
+                        const current_time = part["current_time"];
                         
                         if(link){
                             html_courses.push(`
-                            <button class="btn-part" onclick="load_video('${link}')">Parte_${(part_ind)}</button>
+                            <button class="btn-part" onclick="load_video('${link}', ${id_course_part}, '${course} Parte_${(part_ind)}', ${current_time})">Parte_${(part_ind)}</button>
                         `);
                         }
 
@@ -199,14 +203,14 @@ _Moto_7    -> Completala cabezón
         
         <script>
             
-            function load_video(video){
-                
-                //const url = "http://supercontrol.atspace.cc/api_mediafire_link.php";
+            function load_video(video, id_course_part, title_course, current_time){
                 
                 const url = "https://www.nutritionalindexts.com/nik/libs/example/mediafire_lnk.php";
-                
                 const vid = window.btoa(video);
                 
+                current_id_course_part = id_course_part;
+                
+                document.title = title_course;
                 
                 $.ajax({                        
                     url: url,
@@ -218,19 +222,23 @@ _Moto_7    -> Completala cabezón
                     success: function(data){
             			//$("#aquiPonLosEtqs").html(data);
                         
-                        render_video(data.trim());
+                        render_video(data.trim(), current_time);
                     }
                 });
                 
             }
             
-            function render_video(link){
+            function render_video(link, current_time){
                 
                 var player = videojs(document.querySelector('.video-js'));
                 player.src({
                     src: link,
                     type: 'video/mp4'/*video type*/
                 });
+                
+                if(current_time){
+                  player.currentTime(current_time);
+                }
                 
                 player.play();
                 
@@ -275,6 +283,28 @@ _Moto_7    -> Completala cabezón
                 
             }
             
+            function saveCurrentTime(){
+              
+              var videoCurrentTime = videojs(document.querySelector('.video-js')).currentTime();
+              
+              //alert("Saving: "+current_id_course_part+" => "+videoCurrentTime);
+              
+              
+              $.ajax({
+                url: 'saveCurrentTime.php',
+                type: "POST", 
+                data: {"id_course_part" : current_id_course_part, "current_time" : videoCurrentTime},
+                beforeSend: function(){
+                    console.log("Porcesando");
+                },
+                success: function(data){
+        			//$("#aquiPonLosEtqs").html(data);
+                  console.log(data);
+                  //render_video(data.trim());
+                }
+              });
+            }
+            
             document.addEventListener("keydown",(e)=>{
                 if(e.keyCode==37){       //left arrow
                     backward();
@@ -287,6 +317,12 @@ _Moto_7    -> Completala cabezón
                 else if(e.keyCode==40){
                     slow();
                 }
+                else if(e.ctrlKey && String.fromCharCode(e.keyCode) == 'S'){
+                  e.preventDefault();
+                  saveCurrentTime();
+             	    return false;
+                }
+                
               }
             );
             

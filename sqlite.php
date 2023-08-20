@@ -102,7 +102,7 @@ sql;
             if(!$courses[$course]){
                 $courses[$course] = array();
             }
-            array_push($courses[$course], array("url" =>  $url, "current_time" => $row["current_time"]));
+            array_push($courses[$course], array("url" =>  $url, "current_time" => $row["current_time"], "id_course_part" => $row["id_course_part"]));
             
             
             /*
