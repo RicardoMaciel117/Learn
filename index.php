@@ -12,6 +12,9 @@ _Moto_7    -> Completala cabezón
 ricardomaciel@protonmail.com
 _Moto_7    -> Completala cabezón
 
+JS Hola mundo:
+https://www.mediafire.com/file/yj26hoom02phuw7/CursoJS_HolaMundo.mp4/file
+
 */
 
 ?>
@@ -127,11 +130,42 @@ _Moto_7    -> Completala cabezón
                 text-shadow: 0 0 3px black;
             }
             
+            .top-controls{
+              position: fixed;
+              top: -50px;
+              left: calc(50% - 106px);
+              z-index: 9999;
+              -webkit-transition-duration:0.4s;
+            }
+            
+            tr{
+              text-align: center;
+            }
+            
         </style>
         
         
     </head>
     <body>
+        
+        <div id="top_controls" class="top-controls">
+          <table>
+            <tbody>
+              <tr>
+                <td style="background: #2b2b2b; border: 2px solid white; padding: 5px; border-radius: 3px;">
+                  <button class="btn-part">&#10133;&nbsp; New</button>
+                  <button onclick="saveCurrentTime();" class="btn-part">	&#128190; &nbsp; Save</button>
+                </td>
+              </tr>
+              <tr style="">
+                <td>
+                  <button id="btn_toogler" class="btn-part" style="border-radius: 0px 0px 7px 7px;">⇣</button>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
         
         <div id="video_html">
             <video
@@ -285,8 +319,9 @@ _Moto_7    -> Completala cabezón
             
             function saveCurrentTime(){
               
+              var player = videojs(document.querySelector('.video-js'));
+              player.pause();
               var videoCurrentTime = videojs(document.querySelector('.video-js')).currentTime();
-              
               //alert("Saving: "+current_id_course_part+" => "+videoCurrentTime);
               
               
@@ -299,7 +334,7 @@ _Moto_7    -> Completala cabezón
                 },
                 success: function(data){
         			//$("#aquiPonLosEtqs").html(data);
-                  console.log(data);
+                  alert(data);
                   //render_video(data.trim());
                 }
               });
@@ -325,6 +360,16 @@ _Moto_7    -> Completala cabezón
                 
               }
             );
+            
+            document.querySelector("#btn_toogler").addEventListener('click', function(){
+              
+              const topControls = document.querySelector("#top_controls");
+              topControls.style.top = this.textContent == "⇡" ? "-50px" : "0px";
+              
+              this.textContent = this.textContent == "⇡" ? "⇣": "⇡";
+              
+            });
+            
             
             //https://videojs.com/guides/options/#useractionshotkeys
             //https://videojs.com/guides/options/
