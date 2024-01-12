@@ -142,6 +142,115 @@ https://www.mediafire.com/file/yj26hoom02phuw7/CursoJS_HolaMundo.mp4/file
               text-align: center;
             }
             
+          /*Start modal styles*/
+          
+          /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100vh; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  overflow: hidden;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 9% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 340px; /* Could be more or less, depending on screen size */
+  max-height: 85vh;
+  font-family: Sans-Serif;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.more-info{
+  text-align: center;
+  max-width: 300px;
+  border: solid;
+  padding: 20px;
+  background: #ebebeb;
+}
+
+.examples-container{
+  display: block;
+  
+}
+
+/*Carrousel*/
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 250px;
+}
+
+.carousel-slide {
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.carousel-slide img {
+  max-width: 100%;
+  height: auto;
+}
+
+.active {
+  display: block;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 30%;
+  transform: translateY(-40%);
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.carousel-control:hover {
+  text-shadow: 0 0 6px;
+}
+
+.prev {
+  left: 30%;
+}
+
+.next {
+  right: 30%;
+}
+
+/*End Modal styles *>
+            
+            
         </style>
         
         
@@ -153,7 +262,7 @@ https://www.mediafire.com/file/yj26hoom02phuw7/CursoJS_HolaMundo.mp4/file
             <tbody>
               <tr>
                 <td style="background: #2b2b2b; border: 2px solid white; padding: 5px; border-radius: 3px;">
-                  <button class="btn-part">&#10133;&nbsp; New</button>
+                  <button id="myBtn" class="btn-part">&#10133;&nbsp; New</button>
                   <button onclick="saveCurrentTime();" class="btn-part">	&#128190; &nbsp; Save</button>
                 </td>
               </tr>
@@ -182,6 +291,46 @@ https://www.mediafire.com/file/yj26hoom02phuw7/CursoJS_HolaMundo.mp4/file
         <div onclick="show_courses_list();" class="right-menu-btn">➲</div>
         <div id="courses_list" class="right-menu"></div>
         
+        
+        
+        <div id="myModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <br>
+            <div>&nbsp;</div>
+            <div class="more-info">
+              <form id="new_course">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td><label>Curso</label></td>
+                      <td>
+                        <input type="text" id="course_name" name="course_name" placeholder="Curso"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>JSON Parts</label></td>
+                      <td>
+                        <textarea></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        
+                      </td>
+                      <td>
+                        <button class="btn-part">Cancelar</button>
+                        <button class="btn-part">Guardar</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                  
+              </form>
+            </div>
+            
+          </div>
+        </div>
         
         <!--video src="https://download2344.mediafire.com/5msv16kud3pg2Yli3JskJizoZkR98hbxjNRWe0xlnKtIsy-jSqH2fvmQNaNCoWTxD0S1MZywYvBHcPWb7E-NWRkeuFKOMA/5qzdlg8twczu9yk/CursoDeGit_parte2.mp4" height="" ></video-->
         <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
@@ -375,6 +524,37 @@ https://www.mediafire.com/file/yj26hoom02phuw7/CursoJS_HolaMundo.mp4/file
             //https://videojs.com/guides/options/
             //https://stackoverflow.com/questions/40444526/video-js-changing-source-but-does-not-show-new-source
             
+        </script>
+        
+        <script>
+          //Modal js
+          // Get the modal
+let modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+let btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+let span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+          
+          
         </script>
         
     </body>
