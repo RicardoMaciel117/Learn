@@ -15,6 +15,9 @@ _Moto_7    -> Completala cabezón
 JS Hola mundo:
 https://www.mediafire.com/file/yj26hoom02phuw7/CursoJS_HolaMundo.mp4/file
 
+Css MiduDev
+https://www.mediafire.com/file/av874dklw1prwhl/CursoCssMiniDuDev.mp4/file
+
 */
 
 ?>
@@ -299,34 +302,31 @@ https://www.mediafire.com/file/yj26hoom02phuw7/CursoJS_HolaMundo.mp4/file
             <br>
             <div>&nbsp;</div>
             <div class="more-info">
-              <form id="new_course">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td><label>Curso</label></td>
-                      <td>
-                        <input type="text" id="course_name" name="course_name" placeholder="Curso"/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><label>JSON Parts</label></td>
-                      <td>
-                        <textarea></textarea>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        
-                      </td>
-                      <td>
-                        <button class="btn-part">Cancelar</button>
-                        <button class="btn-part">Guardar</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                  
-              </form>
+              <table>
+                <tbody>
+                  <tr>
+                    <td><label>Curso</label></td>
+                    <td>
+                      <input type="text" id="course_name" name="course_name" placeholder="Curso"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label>Url Part</label></td>
+                    <td>
+                      <textarea id="course_url_part" name="course_url_part"></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      
+                    </td>
+                    <td>
+                      <button class="btn-part">Cancelar</button>
+                      <button class="btn-part" onclick="saveNewCourse();">Guardar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             
           </div>
@@ -484,6 +484,37 @@ https://www.mediafire.com/file/yj26hoom02phuw7/CursoJS_HolaMundo.mp4/file
                 success: function(data){
         			//$("#aquiPonLosEtqs").html(data);
                   alert(data);
+                  //render_video(data.trim());
+                }
+              });
+            }
+            
+            function saveNewCourse(){
+              const course_name = $("#course_name");
+              const course_url_part = $("#course_url_part");
+              
+              if(course_name.val().length == 0){
+                alert("Debe llenar este campo");
+                course_name.focus();
+                return false;
+              }
+              
+              if(course_url_part.val().length == 0){
+                alert("Debe llenar este campo");
+                course_url_part.focus();
+                return false;
+              }
+              
+              $.ajax({
+                url: 'new_course.php',
+                type: "POST", 
+                data: {"course_name" : course_name.val(), "course_url_part" : course_url_part.val()},
+                beforeSend: function(){
+                    console.log("Porcesando");
+                },
+                success: function(data){
+        			//$("#aquiPonLosEtqs").html(data);
+                  console.log(data);
                   //render_video(data.trim());
                 }
               });
